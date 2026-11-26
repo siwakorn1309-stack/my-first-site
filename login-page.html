@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เข้าสู่ระบบ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e1a2b;
+    --ink-soft: #182840;
+    --paper: #f5f2eb;
+    --cream: #e8e2d4;
+    --ember: #e2562c;
+    --ember-dark: #b93f1b;
+    --muted: #6b7380;
+    --line: #cdc8ba;
+    --font: "Noto Sans Thai", "Sarabun", "Loma", system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: var(--font);
+    color: var(--ink);
+    background: var(--paper);
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- ฝั่งซ้าย: ภาพประตูโค้ง ---------- */
+  .art {
+    position: relative;
+    background: var(--ink);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    padding: 48px;
+  }
+  .art::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(232,226,212,.28) 1.2px, transparent 1.3px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 55% 55% at 50% 78%, #000 0%, transparent 100%);
+            mask-image: radial-gradient(ellipse 55% 55% at 50% 78%, #000 0%, transparent 100%);
+  }
+  .art svg { position: relative; width: min(100%, 520px); height: auto; }
+  .art svg path.arch { fill: none; stroke-linecap: square; }
+  .art svg .door { transform-origin: 50% 100%; animation: open 1.2s .2s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes open { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+  /* ---------- ฝั่งขวา: ฟอร์ม ---------- */
+  .panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 56px clamp(32px, 7vw, 96px) 32px;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; font-weight: 500; letter-spacing: .02em; }
+  .brand svg { width: 34px; height: 40px; }
+
+  main { width: 100%; max-width: 420px; }
+  h1 { font-size: clamp(32px, 4vw, 44px); line-height: 1.25; margin: 0 0 8px; font-weight: 700; }
+  .lead { margin: 0 0 36px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+  .field { margin-bottom: 22px; }
+  label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+  .control { position: relative; }
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    height: 52px;
+    padding: 0 48px 0 18px;
+    font: inherit; font-size: 15px;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input::placeholder { color: #a5a59f; }
+  input:focus-visible {
+    outline: none;
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(226,86,44,.35);
+  }
+  .toggle {
+    position: absolute; right: 6px; top: 6px;
+    width: 40px; height: 40px;
+    display: grid; place-items: center;
+    background: none; border: 0; border-radius: 6px;
+    color: var(--muted); cursor: pointer;
+  }
+  .toggle:hover { color: var(--ink); }
+  .toggle:focus-visible { outline: 2px solid var(--ember); }
+
+  .row { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 28px; font-size: 14px; }
+  .check { display: flex; align-items: center; gap: 10px; cursor: pointer; margin: 0; font-weight: 400; }
+  .check input { position: absolute; opacity: 0; }
+  .box {
+    width: 18px; height: 18px; border: 1.5px solid var(--ink); border-radius: 4px;
+    display: grid; place-items: center; background: #fff;
+  }
+  .box svg { width: 12px; height: 12px; opacity: 0; }
+  .check input:checked + .box svg { opacity: 1; }
+  .check input:focus-visible + .box { outline: 2px solid var(--ember); outline-offset: 2px; }
+  a { color: var(--ember-dark); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; border-radius: 2px; }
+
+  .submit {
+    width: 100%; height: 54px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    font: inherit; font-size: 17px; font-weight: 700;
+    color: var(--paper); background: var(--ink);
+    border: 0; border-radius: 8px; cursor: pointer;
+    transition: background .15s;
+  }
+  .submit svg { transition: transform .2s; }
+  .submit:hover { background: var(--ink-soft); }
+  .submit:hover svg { transform: translateX(4px); }
+  .submit:focus-visible { outline: 3px solid var(--ember); outline-offset: 3px; }
+
+  .msg { min-height: 22px; margin-top: 14px; font-size: 14px; color: var(--ember-dark); }
+
+  footer {
+    display: flex; justify-content: space-between;
+    padding-top: 18px; border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--muted);
+  }
+
+  /* ---------- มือถือ / แท็บเล็ต ---------- */
+  @media (max-width: 860px) {
+    body { grid-template-columns: 1fr; }
+    .art { padding: 28px; max-height: 240px; }
+    .art svg { width: 200px; }
+    .panel { padding: 32px 24px 24px; gap: 36px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .art svg .door { animation: none; }
+    .submit svg { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="art" aria-hidden="true">
+  <svg id="arches" viewBox="0 0 520 600" xmlns="http://www.w3.org/2000/svg"></svg>
+</section>
+
+<section class="panel">
+  <div class="brand">
+    <svg viewBox="0 0 34 40" aria-hidden="true">
+      <path d="M1.2 40V17a15.8 15.8 0 0 1 31.6 0v23" fill="none" stroke="#0e1a2b" stroke-width="2.4"/>
+      <path d="M9 40V17a8 8 0 0 1 16 0v23z" fill="#e2562c"/>
+    </svg>
+    <span>ชื่อบริษัทของคุณ</span>
+  </div>
+
+  <main>
+    <h1>เข้าสู่ระบบ</h1>
+    <p class="lead">ยินดีต้อนรับกลับมา กรุณากรอกข้อมูลเพื่อเข้าใช้งาน</p>
+
+    <form id="login" novalidate>
+      <div class="field">
+        <label for="user">ชื่อผู้ใช้</label>
+        <div class="control">
+          <input id="user" name="user" type="text" autocomplete="username" placeholder="กรอกชื่อผู้ใช้หรืออีเมล" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="pass">รหัสผ่าน</label>
+        <div class="control">
+          <input id="pass" name="pass" type="password" autocomplete="current-password" placeholder="กรอกรหัสผ่าน" required>
+          <button class="toggle" type="button" id="eye" aria-label="แสดงรหัสผ่าน" aria-pressed="false">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="check">
+          <input type="checkbox" name="remember">
+          <span class="box"><svg viewBox="0 0 12 12" fill="none" stroke="#e2562c" stroke-width="2"><path d="M2 6.5l3 3 5-6"/></svg></span>
+          จดจำฉันไว้
+        </label>
+        <a href="#">ลืมรหัสผ่าน?</a>
+      </div>
+
+      <button class="submit" type="submit">
+        เข้าสู่ระบบ
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="#e2562c" stroke-width="2" aria-hidden="true"><path d="M1 7h17M12 1l6 6-6 6"/></svg>
+      </button>
+      <div class="msg" id="msg" role="alert"></div>
+    </form>
+  </main>
+
+  <footer>
+    <span>v1.0</span>
+    <span>© 2026 ชื่อบริษัทของคุณ</span>
+  </footer>
+</section>
+
+<script>
+  // วาดซุ้มประตูโค้งซ้อนกัน 14 ชั้น
+  (function () {
+    var svg = document.getElementById('arches');
+    var NS = 'http://www.w3.org/2000/svg', n = 14, base = 560, cx = 260;
+    function mix(a, b, t) { return a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }); }
+    for (var i = 0; i < n; i++) {
+      var w = 520 - i * 34, h = 560 - i * 36, r = w / 2, top = base - h;
+      var t = i / (n - 1);
+      var c = mix([60, 74, 98], [232, 226, 212], Math.pow(t, 1.2));
+      var last = i >= n - 2;
+      var p = document.createElementNS(NS, 'path');
+      p.setAttribute('class', 'arch');
+      p.setAttribute('d', 'M' + (cx - r) + ' ' + base + 'V' + (top + r) +
+        'A' + r + ' ' + r + ' 0 0 1 ' + (cx + r) + ' ' + (top + r) + 'V' + base);
+      p.setAttribute('stroke', last ? '#e2562c' : 'rgb(' + c.join(',') + ')');
+      p.setAttribute('stroke-width', last ? 2.6 : 1.6);
+      svg.appendChild(p);
+    }
+    var line = document.createElementNS(NS, 'path');
+    line.setAttribute('d', 'M' + (cx - 262) + ' ' + base + 'H' + (cx + 262));
+    line.setAttribute('stroke', '#e8e2d4'); line.setAttribute('stroke-width', 1.6);
+    svg.appendChild(line);
+    // ช่องประตูสีส้ม
+    var door = document.createElementNS(NS, 'path');
+    door.setAttribute('class', 'door');
+    door.setAttribute('d', 'M' + (cx - 36) + ' ' + base + 'V' + (base - 70) + 'A36 36 0 0 1 ' + (cx + 36) + ' ' + (base - 70) + 'V' + base + 'Z');
+    door.setAttribute('fill', '#e2562c');
+    svg.appendChild(door);
+  })();
+
+  // แสดง/ซ่อนรหัสผ่าน
+  var pass = document.getElementById('pass'), eye = document.getElementById('eye');
+  eye.addEventListener('click', function () {
+    var show = pass.type === 'password';
+    pass.type = show ? 'text' : 'password';
+    eye.setAttribute('aria-pressed', show);
+    eye.setAttribute('aria-label', show ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน');
+  });
+
+  // ตรวจข้อมูลเบื้องต้น (เชื่อมต่อระบบจริงที่จุดนี้)
+  document.getElementById('login').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var msg = document.getElementById('msg');
+    if (!this.user.value.trim()) { msg.textContent = 'กรุณากรอกชื่อผู้ใช้'; this.user.focus(); return; }
+    if (!this.pass.value) { msg.textContent = 'กรุณากรอกรหัสผ่าน'; this.pass.focus(); return; }
+    msg.textContent = '';
+    // TODO: ส่งข้อมูลไปยังเซิร์ฟเวอร์ เช่น fetch('/api/login', {...})
+  });
+</script>
+</body>
+</html>
